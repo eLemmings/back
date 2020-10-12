@@ -10,5 +10,6 @@ config = {
     'SECRET_KEY': os.environ.get('SECRET_KEY', 'testkey'),
 
     'SQLALCHEMY_DATABASE_URI': f'sqlite:///{os.path.join(basedir, "db/database.db")}',
-    'USER_JSON_URI': os.path.join(basedir, 'db/user_data.db')
+    'DB_FILE_URL': os.path.join(basedir, "db/database.db"),
+    'USER_JSON_URL': os.path.join(basedir, 'db/user_data/')
 }
