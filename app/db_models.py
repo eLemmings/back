@@ -4,7 +4,7 @@ from . import db
 class Users(db.Model):
     # Model tabeli użytkowników
     uuid = db.Column(
-        db.int,
+        db.Integer,
         primary_key=True)
     email = db.Column(
         db.String(100),
