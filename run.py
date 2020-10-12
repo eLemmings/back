@@ -1,7 +1,7 @@
 import os
 
-from config import config as cf
-from app import *
+from app import config as cf
+from app import app
 
 port = os.environ.get('PORT', 5000)
-app.run(debug=cf['debug'])
+app.run(debug=cf['DEBUG'])
