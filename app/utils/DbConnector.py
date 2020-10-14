@@ -2,8 +2,10 @@ import os
 import json
 import shutil
 
+from flask import jsonify
+
 from config import config
-from app.db_models import Users
+from app.db_models import *
 
 # TODO: Dokumentacja
 
@@ -23,47 +25,42 @@ class DbConnector:
         with open(config['RESPONSE_JSON_PATH'] + f'{name}.json') as file:
             res = json.load(file)
 
-        return json.dumps(res), res['code']
+        return res, res['code']
 
     # ---
 
-    def add_user(self, email: str, password: str, nick: str = '') -> tuple:
+    def add_user(self, nick: str, email: str, password: str) -> None:
         # Dodaje użytkownika do bazy danych
         self.userProto.nick = nick
         self.userProto.email = email
         self.userProto.password = password
 
-        try:
-            self.db.session.add(self.userProto)
-            self.db.session.flush()
-            shutil.copy(config['USER_JSON_PATH'] + 'new.json',
-                        config['USER_JSON_PATH'] + f'{self.userProto.id}.json')
-            self.db.session.commit()
-            self.gen_response('ok')
-        except:
-            self.gen_response('already_exist')
+        self.db.session.add(self.userProto)
+        self.db.session.flush()
+        shutil.copy(config['USER_JSON_PATH'] + 'new.json',
+                    config['USER_JSON_PATH'] + f'{self.userProto.id}.json')
+        self.db.session.commit()
 
-    def set_user_json(self, id: int, data: dict) -> tuple:
+    def set_user_json(self, id: int, data: dict) -> None:
         # Aktualizuje dane JSON użytkownika
         with open(config['USER_JSON_PATH'] + f'{id}.json', 'w') as file:
             file.write(json.dumps(data))
 
-        self.gen_response('ok')
-
     # ---
 
     def get_user(self, id: int) -> Users:
-        # Obiekt ORM z metadanymi użytkownika
-        return self.userProto.query.filter_by(id=id).first()
+        # JSON z metadanymi użytkownika
+        m = self.userProto.query.filter_by(id=id).first()
+        return {'id': m.id, 'nick': m.nick, 'email': m.email}
 
     def get_user_data(self, id: int) -> tuple:
         # Wszystkie dane użytkownika
-        meta = self.userProto.query.filter_by(id=id).first()
+        meta = self.get_user(id)
         data = self.get_user_json(id)
-        return meta, data
+        return {**meta, **data}
 
     def get_user_json(self, id: int) -> Users:
-        # Plik JSON z danymi użytkownika
+        # Słownik z danymi użytkownika
         with open(config['USER_JSON_PATH'] + f'{id}.json') as file:
             res = json.load(file)
 
