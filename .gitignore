@@ -1,2 +1,5 @@
 __pycache__/
 *.db
+
+db/user_data/*
+!db/user_data/new.json
