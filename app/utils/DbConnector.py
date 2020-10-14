@@ -18,8 +18,6 @@ class DbConnector:
             print('Creating database...')
             self.db.create_all()
 
-        self.add_user('test@test.com', 'test', 'test')
-
     def gen_response(self, name: str) -> tuple:
         # Zwraca krotke z opisem odpowiedzi i jej kodem
         with open(config['RESPONSE_JSON_PATH'] + f'{name}.json') as file:
