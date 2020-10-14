@@ -11,5 +11,6 @@ config = {
 
     'SQLALCHEMY_DATABASE_URI': f'sqlite:///{os.path.join(basedir, "db/database.db")}',
     'DB_FILE_URL': os.path.join(basedir, "db/database.db"),
-    'USER_JSON_URL': os.path.join(basedir, 'db/user_data/')
+    'USER_JSON_PATH': os.path.join(basedir, 'db/user_data/'),
+    'RESPONSE_JSON_PATH': os.path.join(basedir, 'db/responses/')
 }
