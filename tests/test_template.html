@@ -7,7 +7,7 @@
     span{
         display: inline-block;
         padding: 10px;
-        margin: 5px;
+        margin: 1px;
         border-radius: 5px;
     }
     #url{
@@ -23,6 +23,9 @@
     #method{
         background-color: red;
     }
+    #params{
+        background-color: lightgreen;
+    }
     #res{
         color: white;
         background-color: #333;
@@ -33,19 +36,22 @@
 </style>
 
 <body>
-    <span id="title">{{title}}</span>
+    <span id="title">Tested at: {{title}}</span>
     <br>
     {%for req in reqs%}
-        <span id="url">URL: {{req[1].url}}</span>
+        <span id="url">URL: {{req.response.url}}</span>
         <br>
 
-        <span id="code">STATUS-CODE: {{req[1].status_code}}</span>
+        <span id="code">STATUS-CODE: {{req.response.status_code}}</span>
         <br>
 
-        <span id="method">METHOD: {{req[0]}}</span>
+        <span id="method">METHOD: {{req.method}}</span>
         <br>
 
-        <span id="res">{{req[2]}}</span>
+        <span id="params">PARAMS:<br>{{req.get_params()}}</span>
+        <br>
+
+        <span id="res">{{req.text}}</span>
         <br>
     {%endfor%}
 </body>

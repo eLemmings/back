@@ -1,32 +1,48 @@
 import requests
-import webbrowser
-from pprint import pformat, pprint
-from datetime import datetime
 import json
+import os
+from datetime import datetime
+
 from jinja2 import Environment, FileSystemLoader
+
 
 env = Environment(loader=FileSystemLoader('tests'))
 template = env.get_template('test_template.html')
 
 BASE = 'http://localhost:5000/'
 
-reqs = [
-    ['PUT', requests.get(BASE + 'user/1', {'nick': 'josh',
-                                        'email': 'josh@test.com', 'password': 'password'})],
-    ['GET', requests.put(BASE + 'user/1')],
-    ['GET', requests.put(BASE + 'user')],
-]
 
-with open(f'tests/results/user_test/{str(datetime.now())}.html', 'w') as file:
-    for req in reqs:
+class Request:
+    def __init__(self, method: str, endpoint: str, params: dict = None):
+        self.method = method
+        self.endpoint = endpoint
+        self.params = params
+        self.response = None
+        self.text = self.call()
+
+    def call(self):
+        self.response = requests.request(
+            self.method, BASE+self.endpoint, data=self.params)
         try:
-            req.append(json.dumps(json.loads(req[1].text), indent=4))
+            return json.dumps(json.loads(self.response.text), indent=4)
         except:
-            req.append(req[1].text)
+            return self.response.text
 
-    file.write(template.render(title=file.name, reqs=reqs))
-    name = file.name
-    file.close()
+    def get_params(self):
+            return self.params
 
-webbrowser.open(name)
-exit()
+
+reqs = (
+    Request('PUT', 'user', {'nick': 'kamil',
+                              'email': 'kamil@test.com', 'password': 'password'}),
+    Request('PUT', 'user', {'nick': 'alala',
+                              'email': 'alala@test.com', 'password': 'password'}),
+    Request('PUT', 'user', {'nick': 'ala2',
+                              'email': 'xd@test.com', 'password': 'password'}),
+    Request('GET', 'user/1'),
+    Request('DELETE', 'user/1'),
+    Request('GET', 'user'),
+)
+
+with open('tests/test_results.html', 'w') as file:
+    file.write(template.render(title=str(datetime.now()), reqs=reqs))
