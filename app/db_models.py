@@ -1,9 +1,10 @@
+# Modele tabel do ORM
 from . import db
 
 
 class Users(db.Model):
     # Model tabeli użytkowników
-    uuid = db.Column(
+    id = db.Column(
         db.Integer,
         primary_key=True)
     email = db.Column(
@@ -18,6 +19,6 @@ class Users(db.Model):
         nullable=False)
 
     def __repr__(self):
-        return f'User:\n {self.uuid}\n {self.email}\n {self.nick}'
+        return f'User:\n {self.id}\n {self.email}\n {self.nick}'
 
 # TODO: Tabela udostępnionych zasobów np. dzienników wykresów itp
