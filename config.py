@@ -9,7 +9,7 @@ config = {
 
     'SECRET_KEY': os.environ.get('SECRET_KEY', 'testkey'),
 
-    'JSONIFY_PRETTYPRINT_REGULAR': False,
+    'JSONIFY_PRETTYPRINT_REGULAR': True,
 
     'SQLALCHEMY_DATABASE_URI': f'sqlite:///{os.path.join(basedir, "db/database.db")}',
     'DB_FILE_URL': os.path.join(basedir, "db/database.db"),
