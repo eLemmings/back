@@ -1,0 +1,51 @@
+<style>
+    body{
+        background-color: #111;
+        font-family: consolas;
+        font-size: 9pt;
+    }
+    span{
+        display: inline-block;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+    }
+    #url{
+        background-color: cyan;
+    }
+    #title{
+        background-color: orange;
+        font-size: 15pt;
+    }
+    #code{
+        background-color: yellow;
+    }
+    #method{
+        background-color: red;
+    }
+    #res{
+        color: white;
+        background-color: #333;
+        margin-bottom: 50px;
+        white-space: pre-wrap;
+    }
+
+</style>
+
+<body>
+    <span id="title">{{title}}</span>
+    <br>
+    {%for req in reqs%}
+        <span id="url">URL: {{req[1].url}}</span>
+        <br>
+
+        <span id="code">STATUS-CODE: {{req[1].status_code}}</span>
+        <br>
+
+        <span id="method">METHOD: {{req[0]}}</span>
+        <br>
+
+        <span id="res">{{req[2]}}</span>
+        <br>
+    {%endfor%}
+</body>
