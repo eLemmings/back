@@ -3,3 +3,5 @@ __pycache__/
 
 db/user_data/*
 !db/user_data/new.json
+
+tests/results/*
