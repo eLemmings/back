@@ -1,0 +1,5 @@
+{
+	"type": "Error: Request",
+	"description": "Bad request",
+	"code": 400
+}

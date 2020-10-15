@@ -1,0 +1,5 @@
+{
+	"type": "Error: Database integrity",
+	"description": "Resource does not exist",
+	"code": 404
+}
