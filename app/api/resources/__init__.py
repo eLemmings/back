@@ -1,2 +1,1 @@
-from .user import User
-from .user_by_id import UserById
+from .user import User, UserJSON
