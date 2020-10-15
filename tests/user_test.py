@@ -39,9 +39,16 @@ reqs = (
                               'email': 'alala@test.com', 'password': 'password'}),
     Request('PUT', 'user', {'nick': 'ala2',
                               'email': 'xd@test.com', 'password': 'password'}),
-    Request('GET', 'user/1'),
-    Request('DELETE', 'user/1'),
-    Request('GET', 'user'),
+    Request('GET', 'user', {'id': 1}),
+    Request('GET', 'user', {'id': 2}),
+    Request('GET', 'user', {'id': 3}),
+    Request('PATCH', 'user', {'id': 3, 'field': 'email', 'value': 'patched@gmail.com'}),
+    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched'}),
+    Request('PATCH', 'user', {'id': 3, 'field': 'password', 'value': 'patched'}),
+    Request('GET', 'user', {'id': 3}),
+    Request('DELETE', 'user', {'id': 1}),
+    Request('DELETE', 'user', {'id': 2}),
+    Request('DELETE', 'user', {'id': 3}),
 )
 
 with open('tests/test_results.html', 'w') as file:
