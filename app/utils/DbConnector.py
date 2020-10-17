@@ -40,6 +40,7 @@ class DbConnector:
     def add_user(self, nick: str, email: str, password: str) -> None:
         # Dodaje użytkownika do bazy danych
         u = Users(nick=nick, email=email, password=password)
+        u.hash_password()
 
         try:
             self.db.session.add(u)
@@ -89,7 +90,10 @@ class DbConnector:
         m = Users.query.filter_by(id=id).first()
         if not m:
             return self.gen_response('does_not_exist')
-        return {'id': m.id, 'nick': m.nick}
+        return {'id': m.id, 'pretty_id': str(hex(m.id))[2:].upper().rjust(4, '0'), 'nick': m.nick}
+
+    def get_from_email(self, email: str) -> dict:
+        return Users.query.filter_by(email=email).first()
 
     def get_user_data(self, id: int) -> tuple:
         # Wszystkie dane użytkownika
