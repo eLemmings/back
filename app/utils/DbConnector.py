@@ -55,8 +55,10 @@ class DbConnector:
         # Aktualizuje dane JSON użytkownika
         with open(config['USER_JSON_PATH'] + f'{id}.json', 'w') as file:
             file.write(json.dumps(data))
+        return self.gen_response('ok')
 
     def patch_user(self, id: int, field: str, value: str) -> dict:
+        # Umożliwia aktualizacje pól rekordu użytkownika np nick albo hasło
         m = Users.query.filter_by(id=id).first()
         if not m:
             return self.gen_response('does_not_exist')
@@ -87,7 +89,7 @@ class DbConnector:
         m = Users.query.filter_by(id=id).first()
         if not m:
             return {}
-        return {'id': m.id, 'nick': m.nick, 'email': m.email}
+        return {'id': m.id, 'nick': m.nick}
 
     def get_user_data(self, id: int) -> tuple:
         # Wszystkie dane użytkownika
