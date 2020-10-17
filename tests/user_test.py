@@ -1,3 +1,10 @@
+'''
+Moduł do testów
+
+Wykonuje podane zapytania do API i generuje plik html z ich rezultatami
+'''
+
+
 import requests
 import json
 import os
@@ -29,26 +36,38 @@ class Request:
             return self.response.text
 
     def get_params(self):
-            return self.params
+        return self.params
 
 
 reqs = (
     Request('PUT', 'user', {'nick': 'kamil',
-                              'email': 'kamil@test.com', 'password': 'password'}),
+                            'email': 'kamil@test.com', 'password': 'password'}),
     Request('PUT', 'user', {'nick': 'alala',
-                              'email': 'alala@test.com', 'password': 'password'}),
+                            'email': 'alala@test.com', 'password': 'password'}),
     Request('PUT', 'user', {'nick': 'ala2',
-                              'email': 'xd@test.com', 'password': 'password'}),
+                            'email': 'xd@test.com', 'password': 'password'}),
+    Request('PUT', 'user', {'nick': 'ala2',
+                            'email': 'xdtest.com', 'password': 'password'}),
+
     Request('GET', 'user', {'id': 1}),
     Request('GET', 'user', {'id': 2}),
     Request('GET', 'user', {'id': 3}),
-    Request('PATCH', 'user', {'id': 3, 'field': 'email', 'value': 'patched@gmail.com'}),
-    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched'}),
-    Request('PATCH', 'user', {'id': 3, 'field': 'password', 'value': 'patched'}),
+
+    Request('GET', 'user/data', {'id': 3}),
+    Request('PUT', 'user/data', {'id': 3, 'json': '{"data": "otherdata"}'}),
+    Request('GET', 'user/data', {'id': 3}),
+
+    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched1'}),
+    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched2'}),
+    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched3'}),
+
     Request('GET', 'user', {'id': 3}),
+
+
     Request('DELETE', 'user', {'id': 1}),
     Request('DELETE', 'user', {'id': 2}),
     Request('DELETE', 'user', {'id': 3}),
+    Request('DELETE', 'user', {'id': 4}),
 )
 
 with open('tests/test_results.html', 'w') as file:
