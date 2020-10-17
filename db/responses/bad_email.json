@@ -1,0 +1,5 @@
+{
+	"type": "Error: Authentication",
+	"description": "Bad email",
+	"code": 422
+}
