@@ -88,7 +88,7 @@ class DbConnector:
         # JSON z metadanymi użytkownika
         m = Users.query.filter_by(id=id).first()
         if not m:
-            return {}
+            return self.gen_response('does_not_exist')
         return {'id': m.id, 'nick': m.nick}
 
     def get_user_data(self, id: int) -> tuple:
@@ -105,7 +105,7 @@ class DbConnector:
             with open(config['USER_JSON_PATH'] + f'{id}.json') as file:
                 res = json.load(file)
         except:
-            return {}
+            return self.gen_response('does_not_exist')
 
         return res
 
