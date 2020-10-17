@@ -20,16 +20,18 @@ BASE = 'http://localhost:5000/'
 
 
 class Request:
-    def __init__(self, method, endpoint: str, json: dict = None):
+    def __init__(self, method, endpoint: str, json: dict = None, token: str = None):
         self.func = method
         self.method = self.func.__name__.upper()
         self.endpoint = endpoint
+        self.token = token
         self.params = json
         self.response = None
         self.text = self.call()
 
     def call(self):
-        self.response = self.func(BASE+self.endpoint, json=self.params)
+        self.response = self.func(BASE+self.endpoint, json=self.params,
+                                  headers={'Authorization': f'Bearer {self.token}'})
         try:
             return json.dumps(json.loads(self.response.text), indent=4)
         except:
@@ -39,37 +41,34 @@ class Request:
         return self.params
 
 
+r = Request(requests.post, 'register', {'nick': 'test_user',
+                                        'email': 'test@test.com', 'password': 'password'})
+
+token = Request(requests.post,
+                'login', {'email': 'test@test.com', 'password': 'password'})
+
+t = token.response.json().get('token', '')
+
+
 reqs = (
-    Request(requests.put, 'user', {'nick': 'alala',
-                            'email': 'alala@test.com', 'password': 'password'}),
-    Request(requests.put, 'user', {'nick': 'alala',
-                            'email': 'alala@test.com', 'password': 'password'}),
-    Request(requests.put, 'user', {'nick': 'ala2',
-                            'email': 'xd@test.com', 'password': 'password'}),
-    Request(requests.put, 'user', {'nick': 'ala3',
-                            'email': 'xdd@test.com', 'password': 'password'}),
-    Request(requests.put, 'user', {'nick': 'ala2',
-                            'email': 'xdtest.com', 'password': 'password'}),
+    r,
+    token,
+    Request(requests.get, 'user', token=t),
 
-    Request(requests.get, 'user', {'id': 1}),
-    Request(requests.get, 'user', {'id': 2}),
-    Request(requests.get, 'user', {'id': 3}),
+    Request(requests.get, 'user/data', token=t),
+    Request(requests.put, 'user/data', {'data': 'otherdata'}, token=t),
+    Request(requests.get, 'user/data', token=t),
 
-    Request(requests.get, 'user/data', {'id': 3}),
-    Request(requests.put, 'user/data', {'id': 3, 'json': {'data': 'otherdata'}}),
-    Request(requests.get, 'user/data', {'id': 3}),
+    Request(requests.patch, 'user', {
+            'field': 'nick', 'value': 'patched1'}, token=t),
+    Request(requests.patch, 'user', {
+            'field': 'nick', 'value': 'patched2'}, token=t),
+    Request(requests.patch, 'user', {
+            'field': 'nick', 'value': 'patched3'}, token=t),
 
-    Request(requests.patch, 'user', {'id': 3, 'field': 'nick', 'value': 'patched1'}),
-    Request(requests.patch, 'user', {'id': 3, 'field': 'nick', 'value': 'patched2'}),
-    Request(requests.patch, 'user', {'id': 3, 'field': 'nick', 'value': 'patched3'}),
+    Request(requests.get, 'user', token=t),
 
-    Request(requests.get, 'user', {'id': 3}),
-
-
-    Request(requests.delete, 'user', {'id': 1}),
-    Request(requests.delete, 'user', {'id': 2}),
-    Request(requests.delete, 'user', {'id': 3}),
-    Request(requests.delete, 'user', {'id': 4}),
+    Request(requests.delete, 'user', token=t),
 )
 
 with open('tests/test_results.html', 'w') as file:
