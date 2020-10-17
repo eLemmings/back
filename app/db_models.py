@@ -1,5 +1,6 @@
 # Modele tabel do ORM
 from app import db
+from flask_bcrypt import check_password_hash, generate_password_hash
 
 
 class Users(db.Model):
@@ -17,6 +18,12 @@ class Users(db.Model):
     password = db.Column(
         db.String(100),
         nullable=False)
+
+    def hash_password(self):
+        self.password = generate_password_hash(self.password).decode('utf-8')
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
     def __repr__(self):
         return f'User:\n {self.id}\n {self.email}\n {self.nick}'
