@@ -30,7 +30,7 @@ class VUserPatch(VId):
 
 class VJsonPatch(VId):
     # Walidator danych JSON
-    json = fields.String(required=True)
+    json = fields.Dict(required=True)
 
 
 class VJson(Schema):

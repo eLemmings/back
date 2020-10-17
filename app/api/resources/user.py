@@ -15,7 +15,7 @@ class User(Resource):
     def put(self):
         # Dodaje użytkownika - rejestracja
         try:
-            user = VUser().load(request.form)
+            user = VUser().load(request.get_json())
             return db_connector.add_user(user['nick'], user['email'], user['password'])
         except ValidationError as error:
             return error.messages, 422
@@ -23,7 +23,7 @@ class User(Resource):
     def get(self):
         # Zwraca dane użytkownika - id, nick
         try:
-            id = VId().load(request.form)
+            id = VId().load(request.get_json())
             return db_connector.get_user(id['id'])
         except ValidationError as error:
             return error.messages, 422
@@ -31,15 +31,15 @@ class User(Resource):
     def delete(self):
         # Usuwa użytkownika
         try:
-            id = VId().load(request.form)
+            id = VId().load(request.get_json())
             return db_connector.delete_user(id['id'])
         except ValidationError as error:
             return error.messages, 422
 
     def patch(self):
-        # Pozwala na zmiane danych użtkownika - np nicku
+        # Pozwala na zmiane danych użytkownika - np nicku
         try:
-            patch = VUserPatch().load(request.form)
+            patch = VUserPatch().load(request.get_json())
             return db_connector.patch_user(patch['id'], patch['field'], patch['value'])
         except ValidationError as error:
             return error.messages, 422
@@ -50,7 +50,7 @@ class UserJSON(Resource):
     def get(self):
         # Zwraca dane JSON użytkownika
         try:
-            id = VId().load(request.form)
+            id = VId().load(request.get_json())
             return db_connector.get_user_json(id['id'])
         except ValidationError as error:
             return error.messages, 422
@@ -58,8 +58,8 @@ class UserJSON(Resource):
     def put(self):
         # Nadpisuje dane JSON użytkownika
         try:
-            patch = VJsonPatch().load(request.form)
-            json = VJson().load(jsonlib.loads(patch['json']))
+            patch = VJsonPatch().load(request.get_json())
+            json = VJson().load(patch['json'])
             return db_connector.set_user_json(patch['id'], json)
         except ValidationError as error:
             return error.messages, 422
