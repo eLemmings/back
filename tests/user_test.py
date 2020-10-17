@@ -20,16 +20,16 @@ BASE = 'http://localhost:5000/'
 
 
 class Request:
-    def __init__(self, method: str, endpoint: str, params: dict = None):
-        self.method = method
+    def __init__(self, method, endpoint: str, json: dict = None):
+        self.func = method
+        self.method = self.func.__name__.upper()
         self.endpoint = endpoint
-        self.params = params
+        self.params = json
         self.response = None
         self.text = self.call()
 
     def call(self):
-        self.response = requests.request(
-            self.method, BASE+self.endpoint, data=self.params)
+        self.response = self.func(BASE+self.endpoint, json=self.params)
         try:
             return json.dumps(json.loads(self.response.text), indent=4)
         except:
@@ -37,37 +37,38 @@ class Request:
 
     def get_params(self):
         return self.params
+        requests.request()
 
 
 reqs = (
-    Request('PUT', 'user', {'nick': 'kamil',
-                            'email': 'kamil@test.com', 'password': 'password'}),
-    Request('PUT', 'user', {'nick': 'alala',
+    Request(requests.put, 'user', {'nick': 'alala',
                             'email': 'alala@test.com', 'password': 'password'}),
-    Request('PUT', 'user', {'nick': 'ala2',
+    Request(requests.put, 'user', {'nick': 'ala2',
                             'email': 'xd@test.com', 'password': 'password'}),
-    Request('PUT', 'user', {'nick': 'ala2',
+    Request(requests.put, 'user', {'nick': 'ala3',
+                            'email': 'xdd@test.com', 'password': 'password'}),
+    Request(requests.put, 'user', {'nick': 'ala2',
                             'email': 'xdtest.com', 'password': 'password'}),
 
-    Request('GET', 'user', {'id': 1}),
-    Request('GET', 'user', {'id': 2}),
-    Request('GET', 'user', {'id': 3}),
+    Request(requests.get, 'user', {'id': 1}),
+    Request(requests.get, 'user', {'id': 2}),
+    Request(requests.get, 'user', {'id': 3}),
 
-    Request('GET', 'user/data', {'id': 3}),
-    Request('PUT', 'user/data', {'id': 3, 'json': '{"data": "otherdata"}'}),
-    Request('GET', 'user/data', {'id': 3}),
+    Request(requests.get, 'user/data', {'id': 3}),
+    Request(requests.put, 'user/data', {'id': 3, 'json': {'data': 'otherdata'}}),
+    Request(requests.get, 'user/data', {'id': 3}),
 
-    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched1'}),
-    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched2'}),
-    Request('PATCH', 'user', {'id': 3, 'field': 'nick', 'value': 'patched3'}),
+    Request(requests.patch, 'user', {'id': 3, 'field': 'nick', 'value': 'patched1'}),
+    Request(requests.patch, 'user', {'id': 3, 'field': 'nick', 'value': 'patched2'}),
+    Request(requests.patch, 'user', {'id': 3, 'field': 'nick', 'value': 'patched3'}),
 
-    Request('GET', 'user', {'id': 3}),
+    Request(requests.get, 'user', {'id': 3}),
 
 
-    Request('DELETE', 'user', {'id': 1}),
-    Request('DELETE', 'user', {'id': 2}),
-    Request('DELETE', 'user', {'id': 3}),
-    Request('DELETE', 'user', {'id': 4}),
+    Request(requests.delete, 'user', {'id': 1}),
+    Request(requests.delete, 'user', {'id': 2}),
+    Request(requests.delete, 'user', {'id': 3}),
+    Request(requests.delete, 'user', {'id': 4}),
 )
 
 with open('tests/test_results.html', 'w') as file:
