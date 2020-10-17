@@ -37,10 +37,11 @@ class Request:
 
     def get_params(self):
         return self.params
-        requests.request()
 
 
 reqs = (
+    Request(requests.put, 'user', {'nick': 'alala',
+                            'email': 'alala@test.com', 'password': 'password'}),
     Request(requests.put, 'user', {'nick': 'alala',
                             'email': 'alala@test.com', 'password': 'password'}),
     Request(requests.put, 'user', {'nick': 'ala2',
