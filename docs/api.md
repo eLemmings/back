@@ -3,7 +3,7 @@ API pozwala na wygodne tworzenie aplikacji klienciej i zapewnia możliwość ca�
 
 ## Uwierzytelnianie
 1. Pobieramy token korzystając z endpointu logowania `/user/login`
-1. Umieszczamy token w nagłowkau zapytania które chcemy uwierzytelnić `Bearer <token>`
+1. Umieszczamy token w nagłowkau zapytania które chcemy uwierzytelnić `Authorization: Bearer <token>`
 
 ## Endpointy
 ### /register
