@@ -1,2 +1,3 @@
-from .user import User, UserJSON
+from .user import *
 from .auth import *
+from .share import *

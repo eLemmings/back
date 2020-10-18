@@ -37,3 +37,8 @@ class VDiary(Schema):
 class VJson(Schema):
     # Walidator danych JSON
     diaries = fields.List(fields.Nested(VDiary)) 
+
+
+class VDiaryIndex(Schema):
+    # Walidator indexu dziennika
+    index = fields.Intager(required=True) 
