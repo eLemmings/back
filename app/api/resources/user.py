@@ -65,7 +65,7 @@ class UserShare(Resource):
     def put(self):
         # Tworzy udostępnienie
         try:
-            index = VJson().load(request.get_json()['index'])
+            index = VDiaryIndex().load(request.get_json())['index']
             return db_connector.create_share(get_jwt_identity(), index)
         except ValidationError as error:
             return error.messages, 422
