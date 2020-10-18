@@ -1,0 +1,5 @@
+{
+	"type": "Error: Share",
+	"description": "Invalid share",
+	"code": 409
+}
