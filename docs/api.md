@@ -1,35 +1,73 @@
 # API
 API pozwala na wygodne tworzenie aplikacji klienciej i zapewnia możliwość całkowitego odseparowania jej od warstwy logicznej.  
 
+## Uwierzytelnianie
+1. Pobieramy token korzystając z endpointu logowania `/user/login`
+1. Umieszczamy token w nagłowkau zapytania które chcemy uwierzytelnić `Bearer <token>`
+
 ## Endpointy
-### /user
-###### GET
-Pozwala na pobranie danych użytkownika  
-- id - id użytkownika którego dane chcemy pobrać
-
-###### PUT
+### /register
+###### POST
 Rejestruje użytkownika
-- nick - nick użytkownika
-- email - email
-- password - hasło
+```js
+"nick": "<nazwa użytkownika>",
+"email": "<email>",
+"password": "<hasło>",
+```
 
-###### PATCH
+
+### /login
+###### POST
+Zwraca token niezbędny do uwierzytelnienia
+```js
+"email": "<email>",
+"password": "<hasło>",
+```
+
+
+### /user
+###### GET - (Wymaga uwierzytelnienia)
+Pozwala na pobranie danych użytkownika  
+
+###### PATCH - (Wymaga uwierzytelnienia)
 Aktualizuje dane użytkownika
-- id - id użytkownika którego dane chcemy zaktualizować
-- field - pole w bazie które będzie zaktualizowane
-- value - wartość
-
-###### DELETE
+```js
+"field": "<np. email albo nick>",
+"value": "<wartość>",
+```
+###### DELETE - (Wymaga uwierzytelnienia)
 Usuwa użytkownika
-- id - id użytkownika którego chcemy usunąć
 
 
 ### /user/data
-###### GET
+###### GET - (Wymaga uwierzytelnienia)
 Pobiera dane JSON użytkownika
-- id - id użytkownika którego JSON chcemy pobrać
 
-###### PUT
+###### PUT - (Wymaga uwierzytelnienia)
 Nadpisuje dane JSON użytkownika
-- id - id użytkownika
-- json - string z danymi JSON do nadpisania
+```js
+"diaries": [{
+    "name": "Mój dziennik",
+    "type": "int",
+    "min": 1,
+    "max": 5,
+    "date": 0,
+    "colors": ["#ff0000", "#00ff00", "#098ab3", "#ae4582", "#975bca"],
+    "entries": [[]]
+}]
+```
+
+### /share
+###### GET - (Wymaga uwierzytelnienia)
+Pobiera wszystkie udostępnienia użytkownika
+
+###### PUT - (Wymaga uwierzytelnienia)
+Dodaje udostępnienie
+```js
+"index": "<indeks dziennika w pliku json>"
+```
+
+
+### /share/<uuid>
+###### GET
+Zwraca jeden dziennik i usuwa udostępnienie z bazy danych. Z linku można skorzystać tylko raz
