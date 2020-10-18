@@ -40,6 +40,32 @@ class Request:
     def get_params(self):
         return self.params
 
+valid_json = {
+    'diaries': [
+        {
+            'name': 'test',
+            'type': 'int',
+            'min': 1,
+            'max': 5,
+            'date': 12312315,
+            'colors': ['#ffffff', '#000000', '#ff0000'],
+            'entries': [[1,2,3,4], [2,3,4,1]]
+        }
+    ]
+}
+
+invalid_json = {
+    'diaries': [
+        {
+            'type': 3,
+            'min': 1,
+            'max': 5,
+            'date': 12312315,
+            'colors': ['#fffff', '#000000', '#ff0000'],
+            'entries': [3, [2,3,4,1]]
+        }
+    ]
+}
 
 r = Request(requests.post, 'register', {'nick': 'test_user',
                                         'email': 'test@test.com', 'password': 'password'})
@@ -56,7 +82,8 @@ reqs = (
     Request(requests.get, 'user', token=t),
 
     Request(requests.get, 'user/data', token=t),
-    Request(requests.put, 'user/data', {'data': 'otherdata'}, token=t),
+    Request(requests.put, 'user/data', valid_json, token=t),
+    Request(requests.put, 'user/data', invalid_json, token=t),
     Request(requests.get, 'user/data', token=t),
 
     Request(requests.patch, 'user', {
