@@ -86,6 +86,9 @@ class DbConnector:
         db.session.commit()
         return self.gen_response('ok')
 
+
+    # TODO: Zrobić coś z powtarzającym się kodem w poniższych funkcjach
+
     def delete_user(self, id: int) -> None:
         # Usuwa użytkownika
         try:

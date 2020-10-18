@@ -63,7 +63,7 @@ class UserShare(Resource):
 
     @jwt_required
     def put(self):
-        # Tworzy link do udostępnienia
+        # Tworzy udostępnienie
         try:
             index = VJson().load(request.get_json()['index'])
             return db_connector.create_share(get_jwt_identity(), index)

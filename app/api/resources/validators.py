@@ -41,4 +41,4 @@ class VJson(Schema):
 
 class VDiaryIndex(Schema):
     # Walidator indexu dziennika
-    index = fields.Intager(required=True) 
+    index = fields.Integer(required=True) 
