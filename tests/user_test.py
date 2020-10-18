@@ -67,19 +67,27 @@ invalid_json = {
     ]
 }
 
-r = Request(requests.post, 'register', {'nick': 'test_user',
+register = Request(requests.post, 'register', {'nick': 'test_user',
                                         'email': 'test@test.com', 'password': 'password'})
 
 token = Request(requests.post,
                 'login', {'email': 'test@test.com', 'password': 'password'})
 
+
 t = token.response.json().get('token', '')
 
+share = Request(requests.put, 'share', {'index': 0}, token=t)
+
+uuidres = Request(requests.get, 'share', token=t)
+
+uuid = uuidres.response.json().get('shares')[0][0]
 
 reqs = (
-    r,
+    register,
     token,
-    Request(requests.get, 'user', token=t),
+    share,
+    uuidres,
+    Request(requests.get, f'share/{uuid}'),
 
     Request(requests.get, 'user/data', token=t),
     Request(requests.put, 'user/data', valid_json, token=t),
