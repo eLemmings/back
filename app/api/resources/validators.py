@@ -23,6 +23,17 @@ class VUserPatch(Schema):
     value = fields.String(required=True)
 
 
+class VDiary(Schema):
+    name=fields.String(required=True)
+    type=fields.String(required=True, validate=validate.OneOf(['int', 'bool']))
+    min=fields.Number()
+    max=fields.Number()
+    date=fields.Integer(required=True)
+    colors=fields.List(fields.String(
+        validate=validate.Regexp("#[0-9a-fA-F]{6}")))
+    entries=fields.List(fields.List(fields.Number()))
+
+
 class VJson(Schema):
     # Walidator danych JSON
-    data = fields.String(required=True)
+    diaries = fields.List(fields.Nested(VDiary)) 

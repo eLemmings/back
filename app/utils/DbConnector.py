@@ -9,6 +9,7 @@ client side
 import os
 import json
 import shutil
+import datetime
 from copy import copy
 
 from flask import jsonify
@@ -45,8 +46,7 @@ class DbConnector:
         try:
             self.db.session.add(u)
             self.db.session.commit()
-            shutil.copy(config['USER_JSON_PATH'] + 'new.json',
-                        config['USER_JSON_PATH'] + f'{u.id}.json')
+            self.create_user_json(u.id)
             return self.gen_response('ok')
         except exc.IntegrityError:
             db.session.rollback()
@@ -57,6 +57,13 @@ class DbConnector:
         with open(config['USER_JSON_PATH'] + f'{id}.json', 'w') as file:
             file.write(json.dumps(data))
         return self.gen_response('ok')
+
+    def create_user_json(self, id: int) -> None:
+        shutil.copy(config['USER_JSON_PATH'] + 'new.json',
+                    config['USER_JSON_PATH'] + f'{id}.json')
+        js = self.get_user_json(id)
+        js['diaries'][0]['date'] = int(datetime.datetime.now().timestamp())
+        self.set_user_json(id, js)
 
     def patch_user(self, id: int, field: str, value: str) -> dict:
         # Umożliwia aktualizacje pól rekordu użytkownika np nick albo hasło
