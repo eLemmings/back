@@ -6,4 +6,6 @@ db/user_data/*
 
 tests/results/*
 
+tests/js_test.html
+
 test_results*
