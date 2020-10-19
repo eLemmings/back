@@ -1,14 +1,20 @@
 import os
+import string, random
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+def random_key(n: int) -> str:
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choices(chars, k=n))
+
+
 config = {
-    'DEBUG': True,
+    'DEBUG': os.environ.get('DEBUG', True),
     'SQLALCHEMY_TRACK_MODIFICATIONS': False,
 
-    'SECRET_KEY': os.environ.get('SECRET_KEY', 'testkey'),
-    'JWT_SECRET_KEY': os.environ.get('JWT_SECRET_KEY', 'testkey'),
+    'SECRET_KEY': random_key(50),
+    'JWT_SECRET_KEY': random_key(50),
 
     'JSONIFY_PRETTYPRINT_REGULAR': True,
 
