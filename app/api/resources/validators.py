@@ -12,6 +12,13 @@ class VUser(Schema):
         required=True, validate=validate.Length(min=8, max=30))
 
 
+class VUserLogin(Schema):
+    # Walidator logowania
+    email = fields.Email(required=True)
+    password = fields.String(
+        required=True, validate=validate.Length(min=8, max=30))
+
+
 class VEmail(Schema):
     # Walidator adresu email
     email = fields.Email(required=True)

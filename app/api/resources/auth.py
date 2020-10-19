@@ -8,15 +8,18 @@ import json as jsonlib
 from marshmallow import ValidationError
 import datetime
 
-from .validators import VUser, VUserPatch, VEmail, VJson
+from .validators import VUser, VUserPatch, VEmail, VJson, VUserLogin
 from app import db_connector
 
 
 class Login(Resource):
     # /user/
     def post(self):
-        cred = request.get_json()
-        user = db_connector.get_from_email(cred['email'])
+        try:
+            cred = VUserLogin().load(request.get_json())
+            user = db_connector.get_from_email(cred['email'])
+        except ValidationError as error:
+            return error.messages, 422
 
         if not user:
             return db_connector.gen_response('bad_email') # email invalid
