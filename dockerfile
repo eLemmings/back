@@ -16,6 +16,4 @@ COPY . .
 
 EXPOSE 5000
 
-# CMD ["python3", "run.py"]
-
 CMD ["uwsgi", "--ini", "app.ini"]
