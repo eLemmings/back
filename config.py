@@ -11,6 +11,7 @@ def random_key(n: int) -> str:
 
 config = {
     'DEBUG': os.environ.get('DEBUG', True),
+    'PORT': os.environ.get('PORT', 5000),
     'SQLALCHEMY_TRACK_MODIFICATIONS': False,
 
     'SECRET_KEY': random_key(50),
