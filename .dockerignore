@@ -1,0 +1,12 @@
+tests/
+__pycache__/
+
+db/*.db
+db/user_data/
+
+.git/
+.gitignore
+
+docs/
+LICENSE
+README.md
