@@ -44,12 +44,16 @@ valid_json = {
     'diaries': [
         {
             'name': 'test',
-            'type': 'int',
             'min': 1,
             'max': 5,
             'date': 12312315,
+            'period': 'd',
             'colors': ['#ffffff', '#000000', '#ff0000'],
-            'entries': [[1,2,3,4], [2,3,4,1]]
+            'entries': [[
+                {'value': 1, 'description': 'aaa'},
+                {'value': 2},
+                {'value': 3},
+                {'value': 4}]]
         }
     ]
 }
