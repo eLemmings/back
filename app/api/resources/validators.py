@@ -30,22 +30,30 @@ class VUserPatch(Schema):
     value = fields.String(required=True)
 
 
+class VEntry(Schema):
+    # Walidator wpisu w dzienniku
+    value = fields.Number(required=True)
+    description = fields.String()
+
+
 class VDiary(Schema):
-    name=fields.String(required=True)
-    type=fields.String(required=True, validate=validate.OneOf(['int', 'bool']))
-    min=fields.Number()
-    max=fields.Number()
-    date=fields.Integer(required=True)
-    colors=fields.List(fields.String(
+    # Walidator dziennika
+    name = fields.String(required=True)
+    type = fields.String(validate=validate.OneOf(['int', 'bool']))
+    min = fields.Number()
+    max = fields.Number()
+    period = fields.String()
+    date = fields.Integer(required=True)
+    colors = fields.List(fields.String(
         validate=validate.Regexp("#[0-9a-fA-F]{6}")))
-    entries=fields.List(fields.List(fields.Number()))
+    entries = fields.List(fields.List(fields.Nested(VEntry)))
 
 
 class VJson(Schema):
     # Walidator danych JSON
-    diaries = fields.List(fields.Nested(VDiary)) 
+    diaries = fields.List(fields.Nested(VDiary))
 
 
 class VDiaryIndex(Schema):
     # Walidator indexu dziennika
-    index = fields.Integer(required=True) 
+    index = fields.Integer(required=True)
