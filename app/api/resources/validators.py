@@ -45,7 +45,7 @@ class VDiary(Schema):
     date = fields.Integer(required=True)
     colors = fields.List(fields.String(
         validate=validate.Regexp("#[0-9a-fA-F]{6}")))
-    entries = fields.List(required=True, fields.Nested(VEntry))
+    entries = fields.List(fields.Nested(VEntry), required=True)
 
 
 class VJson(Schema):
