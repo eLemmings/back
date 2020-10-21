@@ -39,14 +39,13 @@ class VEntry(Schema):
 class VDiary(Schema):
     # Walidator dziennika
     name = fields.String(required=True)
-    type = fields.String(validate=validate.OneOf(['int', 'bool']))
     min = fields.Number()
     max = fields.Number()
     period = fields.String()
     date = fields.Integer(required=True)
     colors = fields.List(fields.String(
         validate=validate.Regexp("#[0-9a-fA-F]{6}")))
-    entries = fields.List(fields.List(fields.Nested(VEntry)))
+    entries = fields.List(required=True, fields.Nested(VEntry))
 
 
 class VJson(Schema):
