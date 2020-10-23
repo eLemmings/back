@@ -1,9 +1,7 @@
 {
     "diaries": [{
         "name": "Mój dziennik",
-        "min": 1,
         "max": 5,
-        "date": 0,
         "color": "#33ffc5",
         "entries": []
     }]
