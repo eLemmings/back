@@ -4,8 +4,7 @@
         "min": 1,
         "max": 5,
         "date": 0,
-        "period": "d",
-        "colors": ["#ff0000", "#00ff00", "#098ab3", "#ae4582", "#975bca"],
+        "color": "#33ffc5",
         "entries": []
     }]
 }

@@ -33,18 +33,16 @@ class VUserPatch(Schema):
 class VEntry(Schema):
     # Walidator wpisu w dzienniku
     value = fields.Number(required=True)
+    date = fields.Integer(required=True)
     description = fields.String()
 
 
 class VDiary(Schema):
     # Walidator dziennika
     name = fields.String(required=True)
-    min = fields.Number()
-    max = fields.Number()
-    period = fields.String()
-    date = fields.Integer(required=True)
-    colors = fields.List(fields.String(
-        validate=validate.Regexp("#[0-9a-fA-F]{6}")))
+    min = fields.Number(required=True)
+    max = fields.Number(required=True)
+    color = fields.String(validate=validate.Regexp("#[0-9a-fA-F]{6}"))
     entries = fields.List(fields.Nested(VEntry), required=True)
 
 
