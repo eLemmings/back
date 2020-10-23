@@ -154,10 +154,10 @@ class DbConnector:
 
     def get_share(self, uuid: str):
         if not (share := Shares.query.filter_by(uuid=uuid).first()):
-            return self.gen_response('does not exist')
+            return self.gen_response('does_not_exist')
 
         if not (js := self.get_user_json(share.user.id)):
-            return self.gen_response('does not exist')
+            return self.gen_response('does_not_exist')
 
         try:
             return js['diaries'][share.diary_index], 200
