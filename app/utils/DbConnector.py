@@ -108,11 +108,13 @@ class DbConnector:
         js = self.get_user_json(id)
         if not js or not js['diaries'][index]:
             return self.gen_response('bad_request')
-        share = Shares(uuid=gen_uuid(), diary_index=index, user=user)
+
+        uuid = gen_uuid()
+        share = Shares(uuid=uuid, diary_index=index, user=user)
         try:
             self.db.session.add(share)
             self.db.session.commit()
-            return self.gen_response('ok')
+            return {'code': uuid}
         except exc.IntegrityError:
             db.session.rollback()
             return self.gen_response('already_exist')
