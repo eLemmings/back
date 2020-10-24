@@ -67,6 +67,7 @@ class DbConnector:
         return self.gen_response('ok')
 
     def create_user_json(self, id: int) -> None:
+        # Tworzy użytkownika
         shutil.copy(config['USER_JSON_PATH'] + 'new.json',
                     config['USER_JSON_PATH'] + f'{id}.json')
         js = self.get_user_json(id)
@@ -86,9 +87,6 @@ class DbConnector:
         db.session.commit()
         return self.gen_response('ok')
 
-
-    # TODO: Zrobić coś z powtarzającym się kodem w poniższych funkcjach
-
     def delete_user(self, id: int) -> None:
         # Usuwa użytkownika
         try:
@@ -104,6 +102,7 @@ class DbConnector:
             return self.gen_response('does_not_exist')
 
     def create_share(self, id: int, index: int) -> dict:
+        # Tworzy nowy udostępniony zasób
         user = Users.query.filter_by(id=id).first()
         js = self.get_user_json(id)
         if not js or not js['diaries'][index]:
@@ -120,6 +119,7 @@ class DbConnector:
             return self.gen_response('already_exist')
 
     def delete_share(self, uuid: int) -> dict:
+        # Usuwa udostępniony zasób
         share = Shares.query.filter_by(uuid=uuid).first()
         try:
             self.db.session.delete(share)
@@ -130,6 +130,7 @@ class DbConnector:
             return self.gen_response('does_not_exist')
 
     def clear_shares(self, id: int) -> dict:
+        # Czyści wszystkie udostępnione zasoby
         user = Users.query.filter_by(id=id).first()
         try:
             self.db.session.delete(user.shares)
@@ -142,6 +143,7 @@ class DbConnector:
     # ---
 
     def get_user_shares(self, id: int) -> dict:
+        # Pobiera udostępnione zasoby użytkownika
         shares = Shares.query.filter_by(user_id=id).all()
         if not shares:
             return {}
@@ -153,6 +155,7 @@ class DbConnector:
         return res
 
     def get_share(self, uuid: str):
+        # Pobiera konkretny udostępniony zasób
         if not (share := Shares.query.filter_by(uuid=uuid).first()):
             return self.gen_response('does_not_exist')
 

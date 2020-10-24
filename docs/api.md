@@ -3,7 +3,7 @@ API pozwala na wygodne tworzenie aplikacji klienciej i zapewnia możliwość ca�
 
 ## Uwierzytelnianie
 1. Pobieramy token korzystając z endpointu logowania `/user/login`
-1. Umieszczamy token w nagłowkau zapytania które chcemy uwierzytelnić `Authorization: Bearer <token>`
+1. Umieszczamy token w nagłówku zapytania które chcemy uwierzytelnić `Authorization: Bearer <token>`
 
 ## Endpointy
 ### /register
@@ -48,12 +48,9 @@ Nadpisuje dane JSON użytkownika
 ```js
 "diaries": [{
     "name": "Mój dziennik",
-    "type": "int",
-    "min": 1,
     "max": 5,
-    "date": 0,
-    "colors": ["#ff0000", "#00ff00", "#098ab3", "#ae4582", "#975bca"],
-    "entries": [[]]
+    "color": "#ff0000",
+    "entries": [{value: 4, description: 'test'}, {...}]
 }]
 ```
 
