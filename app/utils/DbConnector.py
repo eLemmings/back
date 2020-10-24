@@ -160,7 +160,10 @@ class DbConnector:
             return self.gen_response('does_not_exist')
 
         try:
-            return js['diaries'][share.diary_index], 200
+            res = js['diaries'][share.diary_index]
+            res['nick'] = share.user.nick
+            res['id'] = gen_pretty_id(share.user.id)
+            return res, 200
         except:
             return self.gen_response('invalid_share')
 
