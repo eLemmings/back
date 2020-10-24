@@ -3,20 +3,24 @@
 from marshmallow import Schema, fields, validate
 
 
+fields.Email.default_error_messages['required'] = 'Email jest wymagany'
+fields.Email.default_error_messages['invalid'] = 'Niepoprawny adres email'
+
+
 class VUser(Schema):
     # Walidator rejestracji
     nick = fields.String(
-        required=True, validate=validate.Length(min=4, max=30))
+        required=True, validate=validate.Length(min=4, max=30, error='Login musi mieć 4 - 30 znaków'))
     email = fields.Email(required=True)
     password = fields.String(
-        required=True, validate=validate.Length(min=8, max=30))
+        required=True, validate=validate.Length(min=8, max=30, error='Hasło musi mieć 8 - 30 znakow'))
 
 
 class VUserLogin(Schema):
     # Walidator logowania
     email = fields.Email(required=True)
     password = fields.String(
-        required=True, validate=validate.Length(min=8, max=30))
+        required=True, validate=validate.Length(min=8, max=30, error='Hasło jest wymagane'))
 
 
 class VEmail(Schema):
