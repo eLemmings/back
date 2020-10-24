@@ -1,5 +1,5 @@
 {
 	"type": "Error: Database integrity",
-	"description": "Resource does not exist",
+	"description": "Zasób nie istnieje",
 	"code": 404
 }

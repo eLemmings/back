@@ -1,5 +1,5 @@
 {
 	"type": "Error: Database integrity",
-	"description": "Resource already exist",
+	"description": "Już istnieje",
 	"code": 409
 }
