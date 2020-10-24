@@ -108,15 +108,16 @@ class DbConnector:
         if not js or not js['diaries'][index]:
             return self.gen_response('bad_request')
 
+        ex_share = Shares.query.filter_by(user=user, diary_index=index).first()
+        if ex_share:
+            self.db.session.delete(ex_share)
+            self.db.session.commit()
+
         uuid = gen_uuid()
         share = Shares(uuid=uuid, diary_index=index, user=user)
-        try:
-            self.db.session.add(share)
-            self.db.session.commit()
-            return {'code': uuid}
-        except exc.IntegrityError:
-            db.session.rollback()
-            return self.gen_response('already_exist')
+        self.db.session.add(share)
+        self.db.session.commit()
+        return {'code': uuid}
 
     def delete_share(self, uuid: int) -> dict:
         # Usuwa udostępniony zasób
