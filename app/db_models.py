@@ -35,7 +35,7 @@ class Shares(db.Model):
     uuid = db.Column(
         db.String(32),
         primary_key=True)
-    diary_index = db.Column(db.Integer, nullable=False, unique=True)
+    diary_index = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id), nullable=False)
 
     def __repr__(self):
